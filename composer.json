@@ -1,5 +1,5 @@
 {
-    "name": "toc/test",
+    "name": "toc/framework",
     "description": "21cake php framework",
     "authors": [
         {
@@ -8,9 +8,11 @@
         }
     ],
     "require": {
+        "php": ">=5.5"
     },
     "autoload": {
         "psr-4": {
+            "Lib\\": "src/Lib/"
         }
     },
     "repositories": [
