@@ -1,6 +1,7 @@
 {
     "name": "toc/framework",
     "description": "21cake php framework",
+    "license": "MIT",
     "authors": [
         {
             "name": "张敬强",
