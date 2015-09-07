@@ -68,7 +68,8 @@ class QueryBuilder
 
     protected function getTableName()
     {
-        return $this->table;
+        // TODO check ` exist
+        return "`" . $this->table . "`";
     }
     /**
      * 
