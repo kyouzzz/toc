@@ -35,7 +35,7 @@ class Response
      * @param  integer $http_code [description]
      * @return [type]             [description]
      */
-    public static function redirect($url, $http_code = 301)
+    public static function redirect($url, $http_code = 302)
     {
         header("Location: $url", true, $http_code);
         exit();
