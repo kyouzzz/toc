@@ -102,11 +102,6 @@ class QueryBuilder
         $this->where_arr[] = [trim($column), $compare_flag, $mixed_value];
         return $this;
     }
-
-    public function whereStr($where_str = '')
-    {
-        return $this;
-    }
     /**
      * 查询返回条数
      * @param  [type] $limit_num 条数
@@ -156,7 +151,8 @@ class QueryBuilder
             " from " . $this->getTableName();
 
         $sql .= $this->buildWhere();
-        $sql .= $this->buildOrder();;
+        $sql .= $this->buildGroup();
+        $sql .= $this->buildOrder();
         if ($this->limit_num) {
             $sql .= " limit " . intval($this->limit_num);
         }
@@ -222,7 +218,7 @@ class QueryBuilder
     {
         $order_str = "";
         foreach ($this->order_arr as $value) {
-            $formated_column = "`$value[0]`";
+            $formated_column = $this->formateColumn($value[0]);
             $order_type = "$value[1]";
             if ($order_str) {
                 $order_str .= ",";
@@ -232,6 +228,35 @@ class QueryBuilder
             $order_str .= "$formated_column $order_type";
         }
         return $order_str;
+    }
+    /**
+     * 分组方法
+     * @return [type] [description]
+     */
+    public function buildGroup()
+    {
+        if (empty($this->group_arr)) {
+            return "";
+        }
+
+        $group_str = " group by ";
+        $formated_arr = [];
+        foreach ($this->group_arr as $column) {
+            $formated_arr[] = $this->formateColumn($column);
+        }
+        $group_str .= implode(",", $formated_arr);
+        return $group_str;
+    }
+    /**
+     * 格式化列
+     * @param  [type] $column [description]
+     * @return [type]         [description]
+     */
+    private function formateColumn($column)
+    {
+        $column = str_replace("`", "", $column);
+        $formated_column = "`$column`";
+        return $formated_column;
     }
 
 
