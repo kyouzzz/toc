@@ -63,14 +63,12 @@ class F
         $base_uri = $this->getBaseUri();
         // 获取路由 controller 和 action
         $route_mapping = $this->router->getRouteMapping($base_uri);
-        // url 正则匹配数组
-        $route_matches = $this->router->getMatches();
         if (empty($route_mapping)) {
             Response::redirect("/error.html", 302);
         }
         $params = $this->request->getParameters();
+        // url 正则匹配数组
         $matches = $this->router->getMatches();
-
         // 执行拦截器操作
         $this->execInterceptors($route_mapping["controller"],
             $route_mapping["action"], $params, $matches);
