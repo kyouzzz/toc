@@ -19,12 +19,14 @@ class Response
         }
         $page_path = ROOT_PATH . "page/app-" . strtolower(APP_NAME) . "/html/";
         $view_file = $page_path . ltrim($html_file, "/");
-        foreach ($data as $key => $value) {
-            // 只在第一维简单过滤html注入, 遍历数组过滤可能会影响性能 
-            if (gettype($value) == "string") {
-                $value = htmlspecialchars($value);
+        if (!empty($data)) {
+            foreach ($data as $key => $value) {
+                // 只在第一维简单过滤html注入, 遍历数组过滤可能会影响性能 
+                if (gettype($value) == "string") {
+                    $value = htmlspecialchars($value);
+                }
+                $$key = $value;
             }
-            $$key = $value;
         }
         http_response_code($http_code);
         include($view_file);
