@@ -11,7 +11,7 @@ class Response
      * @param  integer $http_code [description]
      * @return [type]             [description]
      */
-    public static function view($html_file, $data = [], $http_code = 200)
+    public static function view($html_file = "", $data = [], $http_code = 200)
     {
         if (empty($html_file)) {
             http_response_code($http_code);
