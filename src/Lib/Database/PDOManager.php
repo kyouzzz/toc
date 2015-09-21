@@ -27,6 +27,7 @@ class PDOManager
                     "mysql:host=$host;dbname=$dbname;port=$port",
                     $user,
                     $password);
+                $new_pdo->query("SET NAMES utf8");
                 $new_pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
                 self::$pdo_list[$unique_key] = $new_pdo;
             } catch (\PDOException $e) {
