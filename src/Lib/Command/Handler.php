@@ -11,7 +11,7 @@ class Handler
 
         $arr = explode("/", $job_path);
         $arr = array_filter($arr);
-        $clazz = "App\\Console\\" . implode("\\", $arr);
+        $clazz = APP_NAME . "\\Console\\" . implode("\\", $arr);
         $controller = new $clazz();
 
         unset($args[0], $args[1]);
