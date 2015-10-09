@@ -193,14 +193,36 @@ class QueryBuilder
                 // $in_query = implode(',', array_fill(0, count($compare_value) - 1, '?'));
                 $temp_arr[] = "$formated_column in (" . implode(",", $compare_value) . ")";
             } else {
-                $temp_arr[] = "$formated_column $compare_flag :$column";
-                $this->query_mapping[":$column"] = $compare_value;
+                $compare_key = $this->getUniqueCompareKey($column);
+                $this->query_mapping[":$compare_key"] = $compare_value;
+
+                $temp_arr[] = "$formated_column $compare_flag :$compare_key";
             }
         }
         if ($temp_arr) {
             return " where " . implode(" and ", $temp_arr);
         }
         return "";
+    }
+    /**
+     * 获取 pdo mapping key
+     * @param  [type] $column [description]
+     * @return [type]         [description]
+     */
+    private function getUniqueCompareKey($column)
+    {
+        $mapping_num = count($this->query_mapping);
+        $compare_key = "$column";
+        // 避免出现类似 where id > :id and id < :id bug
+        for ($i = 0; $i <= $mapping_num; $i ++) {
+            if ($i) {
+                $compare_key = "$column" . "_$i";
+            }
+            if (!isset($this->query_mapping[":$compare_key"])) {
+                break;
+            }
+        }
+        return $compare_key;
     }
     /**
      * Bind parameter array
