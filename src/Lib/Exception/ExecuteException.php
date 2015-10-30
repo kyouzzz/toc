@@ -10,6 +10,7 @@ class ExecuteException extends \Exception
     CONST APP_DEFINE_ERROR = 4004;
     CONST CONFIG_DEFINE_ERROR = 4005;
     CONST INTERCEPTOR_BLOCK_ERROR = 4006;
+    CONST FILE_MISS_ERROR = 4007;
 
     public function __construct($code = 0, $extend = '') {
         parent::__construct($this->getErrorMessage($code) . "\t$extend", $code);
@@ -28,6 +29,7 @@ class ExecuteException extends \Exception
             self::APP_DEFINE_ERROR => "APP_NAME 未定义",
             self::CONFIG_DEFINE_ERROR => "CONFIG_PATH 未定义",
             self::INTERCEPTOR_BLOCK_ERROR => "拦截器阻止",
+            self::FILE_MISS_ERROR => "文件不存在",
         ];
         return $mapping[$code];
     }
