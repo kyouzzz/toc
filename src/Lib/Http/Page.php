@@ -9,10 +9,12 @@ class Page
     private static $instance;
     // 加载的模板
     private $layouts = [];
-    // 模板内容
+    // 模板内容暂存
     private $block_buffer = [];
-    // 
+    // 版本号
     private $resource_version = "";
+    // 页面内容暂存
+    private $rest_content = "";
 
     public static function getInstance()
     {
@@ -22,8 +24,12 @@ class Page
         return static::$instance;
     }
 
-    private function __construct()
+    public function parseToBuffer($html_file, $params = '')
     {
+        // 页面未包裹的代码
+        ob_start();
+        $this->parse($html_file, $params);
+        $this->rest_content = ob_get_clean();
     }
     /**
      * 渲染 html 页面
@@ -69,7 +75,13 @@ class Page
     public function block($name)
     {
         if (isset($this->block_buffer[$name])) {
-            echo($this->block_buffer[$name]);
+            echo $this->block_buffer[$name];
+            unset($this->block_buffer[$name]);
+        }
+        // 防止放在 HTML 结束之后
+        if (empty($this->block_buffer)) {
+            echo $this->rest_content;
+            $this->rest_content = "";
         }
     }
     /**
@@ -83,8 +95,7 @@ class Page
     }
     public function blockEnd($name)
     {
-        $this->block_buffer[$name] = ob_get_contents();
-        ob_clean();
+        $this->block_buffer[$name] = ob_get_clean();
     }
     /**
      * 正式输出模板
@@ -94,6 +105,10 @@ class Page
     {
         foreach ($this->layouts as  $layout => $data) {
             $this->parse($layout, $data);
+        }
+        if ($this->rest_content) {
+            echo $this->rest_content;
+            $this->rest_content = "";
         }
         return ;
     }

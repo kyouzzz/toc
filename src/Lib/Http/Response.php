@@ -18,7 +18,7 @@ class Response
             return true;
         }
         $page = Page::getInstance();
-        $page->parse($html_file, $data);
+        $page->parseToBuffer($html_file, $data);
         return $page->outPut();
     }
     /**
