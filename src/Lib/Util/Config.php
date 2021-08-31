@@ -5,7 +5,7 @@ class Config
 {
 
     // TODO 相对路径
-    const SYS_CONF_PATH = "vendor/21cake/framework/config/";
+    const SYS_CONF_PATH = "vendor/comname/framework/config/";
 
     public static function get($key, $file = "common")
     {

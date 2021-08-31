@@ -1,11 +1,11 @@
 {
-    "name": "21cake/framework",
-    "description": "21cake php framework",
+    "name": "comname/framework",
+    "description": "comname php framework",
     "license": "MIT",
     "authors": [
         {
             "name": "张敬强",
-            "email": "zhangjingqiang@21cake.com"
+            "email": "zhangjingqiang@comname.com"
         }
     ],
     "require": {
